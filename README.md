@@ -10,8 +10,14 @@
 
 ### Commands
 
-configure kubectl cluster access:
+Configure kubectl cluster access:
 
 ```bash
 gcloud container clusters get-credentials gke-standard-regional-single-zone --region=us-west1
+```
+
+Configure Traefik:
+
+```
+helm upgrade traefik traefik/traefik --values=traefik-values.yml
 ```
