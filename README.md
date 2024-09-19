@@ -21,6 +21,10 @@ Configure Traefik:
 ```
 cd deploy\prod\treafik
 
+kubectl apply -f https://raw.githubusercontent.com/traefik/traefik/v3.1/docs/content/reference/dynamic-configuration/kubernetes-crd-definition-v1.yml
+
+kubectl apply -f https://raw.githubusercontent.com/traefik/traefik/v3.1/docs/content/reference/dynamic-configuration/kubernetes-crd-rbac.yml
+
 kubectl apply -f 00-role.yml -f 00-account.yml -f 01-role-binding.yml -f 02-services.yml -f 03-deployment.yml
 ```
 
@@ -30,6 +34,10 @@ ArgoCD:
 kubectl create namespace argocd
 
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
+kubectl apply -n argocd -f argocd/config.yml
+
+kubectl scale deployment/argocd-server --replicas=0 && kubectl scale deployment/argocd-server --replicas=1
 
 kubectl get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
 ```
