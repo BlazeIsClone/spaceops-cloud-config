@@ -19,12 +19,17 @@ gcloud container clusters get-credentials gke-standard-regional-single-zone --re
 Configure Traefik:
 
 ```
-helm upgrade traefik traefik/traefik --values=traefik-values.yml
+cd deploy\prod\treafik
+
+kubectl apply -f 00-role.yml -f 00-account.yml -f 01-role-binding.yml -f 02-services.yml -f 03-deployment.yml
 ```
 
 ArgoCD:
 
 ```bash
 kubectl create namespace argocd
+
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
+kubectl get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
 ```
