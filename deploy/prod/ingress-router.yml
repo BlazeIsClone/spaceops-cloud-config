@@ -13,20 +13,22 @@ spec:
           name: api@internal
 
     - kind: Rule
-      match: Host(`mission-ctrl.blaze64.xyz`)
-      services:
-        - name: mission-ctrl-server
-          port: 80
-
-    - kind: Rule
       match: Host(`argocd.blaze64.xyz`)
+      priority: 10
       services:
         - name: argocd-server
           port: 80
 
     - kind: Rule
       match: Host(`argocd.blaze64.xyz`) && Header(`Content-Type`, `application/grpc`)
+      priority: 11
       services:
         - name: argocd-server
           port: 80
           scheme: h2c
+
+    - kind: Rule
+      match: Host(`mission-ctrl.blaze64.xyz`)
+      services:
+        - name: mission-ctrl-service
+          port: 80

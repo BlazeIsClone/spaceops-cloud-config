@@ -35,9 +35,9 @@ kubectl create namespace argocd
 
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 
-kubectl apply -n argocd -f argocd/config.yml
+kubectl apply -f deploy/prod/argocd/config.yml
 
-kubectl scale deployment/argocd-server --replicas=0 && kubectl scale deployment/argocd-server --replicas=1
+kubectl delete po argocd-server-xxx -n argocd
 
 kubectl get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
 ```
