@@ -16,19 +16,19 @@ Configure kubectl cluster access:
 gcloud container clusters get-credentials gke-standard-regional-single-zone --region=us-west1
 ```
 
-Configure Traefik:
+Configure Traefik (update service load balancer IP address):
 
 ```
+kubectl create namespace traefik
+
 cd deploy\prod\treafik
 
-kubectl apply -f https://raw.githubusercontent.com/traefik/traefik/v3.1/docs/content/reference/dynamic-configuration/kubernetes-crd-definition-v1.yml
+kubectl apply -n traefik -f https://raw.githubusercontent.com/traefik/traefik/v3.1/docs/content/reference/dynamic-configuration/kubernetes-crd-definition-v1.yml -f https://raw.githubusercontent.com/traefik/traefik/v3.1/docs/content/reference/dynamic-configuration/kubernetes-crd-rbac.yml
 
-kubectl apply -f https://raw.githubusercontent.com/traefik/traefik/v3.1/docs/content/reference/dynamic-configuration/kubernetes-crd-rbac.yml
-
-kubectl apply -f 00-role.yml -f 00-account.yml -f 01-role-binding.yml -f 02-services.yml -f 03-deployment.yml
+kubectl apply -n traefik -f role.yml -f account.yml -f role-binding.yml -f services.yml -f deployment.yml
 ```
 
-ArgoCD:
+Configure Argo CD:
 
 ```bash
 kubectl create namespace argocd
@@ -39,5 +39,5 @@ kubectl apply -f deploy/prod/argocd/config.yml
 
 kubectl delete po argocd-server-xxx -n argocd
 
-kubectl get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
+kubectl get -n argocd secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
 ```

@@ -5,6 +5,7 @@ metadata:
 
 spec:
   type: LoadBalancer
+  loadBalancerIP: 34.82.231.50
   ports:
     - targetPort: 80
       port: 80
