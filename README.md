@@ -8,9 +8,17 @@
 - The gcloud CLI installed locally.
 - Terraform 0.15.3+ installed locally.
 
-### Commands
+First authenticate kubectl for cluster access:
 
-Configure kubectl cluster access:
+### Provision Cloud Infrastructure
+
+Terraform create resources:
+
+```
+terraform apply
+```
+
+### Provision K8s Cluster
 
 ```bash
 gcloud container clusters get-credentials gke-standard-regional-single-zone --region=us-west1
@@ -18,26 +26,18 @@ gcloud container clusters get-credentials gke-standard-regional-single-zone --re
 
 Configure Traefik (update service load balancer IP address):
 
-```
-kubectl create namespace traefik
-
-cd deploy\prod\treafik
-
-kubectl apply -n traefik -f https://raw.githubusercontent.com/traefik/traefik/v3.1/docs/content/reference/dynamic-configuration/kubernetes-crd-definition-v1.yml -f https://raw.githubusercontent.com/traefik/traefik/v3.1/docs/content/reference/dynamic-configuration/kubernetes-crd-rbac.yml
-
-kubectl apply -n traefik -f role.yml -f account.yml -f role-binding.yml -f services.yml -f deployment.yml
+```bash
+helm upgrade --install --create-namespace --namespace=traefik \
+    --repo https://traefik.github.io/charts \
+    -f deploy/prod/traefik/values.yml traefik traefik
 ```
 
 Configure Argo CD:
 
 ```bash
-kubectl create namespace argocd
+ helm upgrade --install --create-namespace --namespace=argocd \
+    --repo https://argoproj.github.io/argo-helm \
+    -f deploy/prod/argocd/values.yml argocd argo-cd
 
-kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
-
-kubectl apply -f deploy/prod/argocd/config.yml
-
-kubectl delete po argocd-server-xxx -n argocd
-
-kubectl get -n argocd secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
+kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
 ```
