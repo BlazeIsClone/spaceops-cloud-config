@@ -8,16 +8,36 @@
 - The gcloud CLI installed locally.
 - Terraform 0.15.3+ installed locally.
 
-### Commands
+First authenticate kubectl for cluster access:
 
-Configure kubectl cluster access:
+### Provision Cloud Infrastructure
+
+Terraform create resources:
+
+```
+terraform apply
+```
+
+### Provision K8s Cluster
 
 ```bash
 gcloud container clusters get-credentials gke-standard-regional-single-zone --region=us-west1
 ```
 
-Configure Traefik:
+Configure Traefik (update service load balancer IP address):
 
+```bash
+helm upgrade --install --create-namespace --namespace=traefik \
+    --repo https://traefik.github.io/charts \
+    -f deploy/prod/traefik/values.yml traefik traefik
 ```
-helm upgrade traefik traefik/traefik --values=traefik-values.yml
+
+Configure Argo CD:
+
+```bash
+ helm upgrade --install --create-namespace --namespace=argocd \
+    --repo https://argoproj.github.io/argo-helm \
+    -f deploy/prod/argocd/values.yml argocd argo-cd
+
+kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
 ```
