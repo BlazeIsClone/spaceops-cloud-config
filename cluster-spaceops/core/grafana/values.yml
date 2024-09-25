@@ -1,0 +1,6 @@
+adminUser: admin
+adminPassword: grafana
+
+persistence:
+  type: pvc
+  enabled: true

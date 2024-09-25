@@ -43,3 +43,33 @@ kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.pas
 
 kubectl -n argocd apply cluster-spaceops/argocd/ingress.yml
 ```
+
+Grafana:
+
+```bash
+helm upgrade --install --create-namespace --namespace=monitoring \
+    --repo https://grafana.github.io/helm-charts \
+    -f cluster-spaceops/core/grafana/values.yml grafana grafana
+
+kubectl -n monitoring apply -f cluster-spaceops/core/grafana/ingress.yml
+```
+
+Prometheus:
+
+```bash
+helm upgrade --install --create-namespace --namespace=monitoring \
+    --repo https://prometheus-community.github.io/helm-charts \
+    -f cluster-spaceops/core/prometheus/values.yml prometheus prometheus
+
+kubectl -n monitoring apply -f cluster-spaceops/core/prometheus/ingress.yml
+```
+
+Loki and Promtail:
+
+```bash
+helm upgrade --install --create-namespace --namespace=monitoring \
+    --repo https://grafana.github.io/helm-charts \
+    -f cluster-spaceops/core/loki/values.yml loki loki-stack
+
+kubectl -n monitoring apply -f cluster-spaceops/core/loki/ingress.yml
+```
