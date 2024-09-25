@@ -29,7 +29,7 @@ Configure Traefik (update service load balancer IP address):
 ```bash
 helm upgrade --install --create-namespace --namespace=traefik \
     --repo https://traefik.github.io/charts \
-    -f deploy/prod/traefik/values.yml traefik traefik
+    -f cluster-spaceops/core/traefik/values.yml traefik traefik
 ```
 
 Configure Argo CD:
@@ -37,7 +37,9 @@ Configure Argo CD:
 ```bash
  helm upgrade --install --create-namespace --namespace=argocd \
     --repo https://argoproj.github.io/argo-helm \
-    -f deploy/prod/argocd/values.yml argocd argo-cd
+    -f cluster-spaceops/core/argocd/values.yml argocd argo-cd
 
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
+
+kubectl -n argocd apply cluster-spaceops/argocd/ingress.yml
 ```
