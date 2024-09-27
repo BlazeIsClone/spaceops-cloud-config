@@ -71,5 +71,8 @@ helm upgrade --install --create-namespace --namespace=monitoring \
     --repo https://grafana.github.io/helm-charts \
     -f cluster-spaceops/core/loki/values.yml loki loki-stack
 
+helm upgrade --install loki --namespace=monitoring grafana/loki-stack \
+    --set loki.image.tag=2.9.3 -f cluster-spaceops/core/loki/values.yml
+
 kubectl -n monitoring apply -f cluster-spaceops/core/loki/ingress.yml
 ```
