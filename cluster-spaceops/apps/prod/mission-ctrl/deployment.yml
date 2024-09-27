@@ -5,7 +5,7 @@ metadata:
   labels:
     app: mission-ctrl
 spec:
-  replicas: 3
+  replicas: 4
   selector:
     matchLabels:
       app: mission-ctrl
