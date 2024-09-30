@@ -1,0 +1,21 @@
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  generateName: mission-ctrl-migration-
+  annotations:
+    argocd.argoproj.io/hook: "PreSync"
+    argocd.argoproj.io/hook-delete-policy: "BeforeHookCreation"
+    argocd.argoproj.io/job-cleanup: "keep"
+spec:
+  template:
+    spec:
+      containers:
+        - name: mission-ctrl-migration
+          image: ghcr.io/blazeisclone/spaceops-mission-ctrl:v0.0.3
+          command:
+            - "make"
+            - "migrate"
+            - "action=up"
+      restartPolicy: Never
+  backoffLimit: 0
