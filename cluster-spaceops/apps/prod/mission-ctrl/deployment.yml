@@ -14,6 +14,11 @@ spec:
       labels:
         app: mission-ctrl
     spec:
+      initContainers:
+        - name: migrations
+          image: migrate/migrate:v4.18.1
+          command: ["make migrate"]
+          args: ["action=up"]
       containers:
         - name: mission-ctrl-app
           image: ghcr.io/blazeisclone/spaceops-mission-ctrl:v0.0.3
