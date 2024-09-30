@@ -17,8 +17,26 @@ spec:
       initContainers:
         - name: migrations
           image: migrate/migrate:v4.18.1
-          command: ["make migrate"]
-          args: ["action=up"]
+          command: ["make", "migrate"]
+          args:
+            - |
+              cp -r /app/* /app;
+              make migrate action=up;
+          env:
+            - name: MYSQL_HOST
+              value: 34.133.141.183
+            - name: MYSQL_PORT
+              value: "3306"
+            - name: MYSQL_USER
+              value: spaceops
+            - name: MYSQL_DATABASE
+              value: spaceops_mission_ctrl
+            - name: MYSQL_PASSWORD
+              value: password
+          volumeMounts:
+            - name: shared-app-volume
+              mountPath: /app
+
       containers:
         - name: mission-ctrl-app
           image: ghcr.io/blazeisclone/spaceops-mission-ctrl:v0.0.4
@@ -54,3 +72,10 @@ spec:
             limits:
               memory: "64Mi"
               cpu: "150m"
+          volumeMounts:
+            - name: shared-app-volume
+              mountPath: /app
+
+      volumes:
+        - name: shared-volume
+          emptyDir: {}
