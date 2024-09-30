@@ -31,11 +31,9 @@ spec:
             - name: BASE_PATH
               value: /api/v1
             - name: MYSQL_HOST
-              value: 127.0.0.1
+              value: 34.133.141.183
             - name: MYSQL_PORT
-              value: 3306
-            - name: MYSQL_ROOT_PASSWORD
-              value: password
+              value: "3306"
             - name: MYSQL_USER
               value: spaceops
             - name: MYSQL_DATABASE
