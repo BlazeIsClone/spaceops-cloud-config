@@ -8,8 +8,6 @@
 - The gcloud CLI installed locally.
 - Terraform 0.15.3+ installed locally.
 
-First authenticate kubectl for cluster access:
-
 ### Provision Cloud Infrastructure
 
 Terraform create resources:
@@ -18,7 +16,7 @@ Terraform create resources:
 terraform apply
 ```
 
-### Provision K8s Cluster
+First authenticate kubectl for cluster access:
 
 ```bash
 gcloud container clusters get-credentials gke-standard-regional-single-zone --region=us-west1
@@ -64,6 +62,16 @@ helm upgrade --install --create-namespace --namespace=monitoring \
 kubectl -n monitoring apply -f cluster-spaceops/core/prometheus/ingress.yml
 ```
 
+Blackbox Exporter:
+
+```bash
+helm upgrade --install --create-namespace --namespace=monitoring \
+    --repo https://prometheus-community.github.io/helm-charts \
+    -f cluster-spaceops/core/blackbox-exporter/values.yml blackbox-exporter prometheus-blackbox-exporter
+
+kubectl -n monitoring apply -f cluster-spaceops/core/blackbox-exporter/ingress.yml
+```
+
 Loki and Promtail:
 
 ```bash
@@ -80,3 +88,7 @@ kubectl -n monitoring apply -f cluster-spaceops/core/loki/ingress.yml
 ### Resources
 
 [Grafana Dashboards](https://github.com/dotdc/grafana-dashboards-kubernetes)
+
+[Traefik Dashboard](https://grafana.com/grafana/dashboards/17346-traefik-official-standalone-dashboard/)
+
+[ArgoCD Dashboard](https://grafana.com/grafana/dashboards/14584-argocd/)
