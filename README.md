@@ -76,3 +76,7 @@ helm upgrade --install loki --namespace=monitoring grafana/loki-stack \
 
 kubectl -n monitoring apply -f cluster-spaceops/core/loki/ingress.yml
 ```
+
+### Resources
+
+[Grafana Dashboards](https://github.com/dotdc/grafana-dashboards-kubernetes)
