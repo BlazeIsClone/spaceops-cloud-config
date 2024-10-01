@@ -14,6 +14,28 @@ spec:
       labels:
         app: mission-ctrl
     spec:
+      initContainers:
+        - name: migrations
+          image: ghcr.io/blazeisclone/spaceops-mission-ctrl:v0.0.6
+          command:
+            - make
+            - migrate
+          env:
+            - name: PORT
+              value: "3000"
+            - name: BASE_PATH
+              value: /api/v1
+            - name: MYSQL_HOST
+              value: 34.133.141.183
+            - name: MYSQL_PORT
+              value: "3306"
+            - name: MYSQL_USER
+              value: spaceops
+            - name: MYSQL_DATABASE
+              value: spaceops_mission_ctrl
+            - name: MYSQL_PASSWORD
+              value: password
+
       containers:
         - name: mission-ctrl-app
           image: ghcr.io/blazeisclone/spaceops-mission-ctrl:v0.0.6
