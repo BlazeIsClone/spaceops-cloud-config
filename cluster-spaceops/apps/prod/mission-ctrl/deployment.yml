@@ -13,8 +13,6 @@ spec:
     metadata:
       labels:
         app: mission-ctrl
-      annotations:
-        prometheus.io/scrape: "true"
     spec:
       initContainers:
         - name: mission-ctrl-migrate
