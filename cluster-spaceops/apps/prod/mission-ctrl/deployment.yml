@@ -15,7 +15,7 @@ spec:
         app: mission-ctrl
     spec:
       initContainers:
-        - name: migrations
+        - name: mission-ctrl-migrate
           image: ghcr.io/blazeisclone/spaceops-mission-ctrl:v0.0.6
           command:
             - make
