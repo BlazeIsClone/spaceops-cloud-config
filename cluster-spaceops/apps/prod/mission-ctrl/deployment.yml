@@ -16,13 +16,13 @@ spec:
     spec:
       initContainers:
         - name: migrations
-          image: migrate/migrate:v4.18.1
+          image: ghcr.io/blazeisclone/spaceops-mission-ctrl:v0.0.6
           command: ["make", "migrate"]
-          args:
-            - |
-              cp -r /app/* /app;
-              make migrate action=up;
           env:
+            - name: PORT
+              value: "3000"
+            - name: BASE_PATH
+              value: /api/v1
             - name: MYSQL_HOST
               value: 34.133.141.183
             - name: MYSQL_PORT
@@ -33,13 +33,10 @@ spec:
               value: spaceops_mission_ctrl
             - name: MYSQL_PASSWORD
               value: password
-          volumeMounts:
-            - name: shared-app-volume
-              mountPath: /app
 
       containers:
         - name: mission-ctrl-app
-          image: ghcr.io/blazeisclone/spaceops-mission-ctrl:v0.0.4
+          image: ghcr.io/blazeisclone/spaceops-mission-ctrl:v0.0.6
           readinessProbe:
             httpGet:
               path: /health
@@ -72,10 +69,3 @@ spec:
             limits:
               memory: "64Mi"
               cpu: "150m"
-          volumeMounts:
-            - name: shared-app-volume
-              mountPath: /app
-
-      volumes:
-        - name: shared-app-volume
-          emptyDir: {}
