@@ -13,9 +13,11 @@ spec:
     metadata:
       labels:
         app: mission-ctrl
+      annotations:
+        prometheus.io/scrape: "true"
     spec:
       initContainers:
-        - name: migrations
+        - name: mission-ctrl-migrate
           image: ghcr.io/blazeisclone/spaceops-mission-ctrl:v0.0.6
           command:
             - make

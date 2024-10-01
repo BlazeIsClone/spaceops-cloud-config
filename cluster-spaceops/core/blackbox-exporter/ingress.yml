@@ -1,0 +1,13 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: blackbox-exporter-ingress
+spec:
+  entryPoints:
+    - web
+  routes:
+    - kind: Rule
+      match: Host(`blackbox-exporter.blaze64.xyz`)
+      services:
+        - name: blackbox-exporter-prometheus-blackbox-exporter
+          port: 9115
