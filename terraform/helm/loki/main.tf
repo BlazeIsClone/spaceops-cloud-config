@@ -4,16 +4,16 @@ provider "helm" {
   }
 }
 
-resource "helm_release" "grafana" {
-  name       = "grafana"
+resource "helm_release" "loki" {
+  name       = "loki"
   namespace  = "monitoring"
-  chart      = "grafana"
-  repository = "https://grafana.github.io/helm-charts"
+  chart      = "loki-stack"
+  repository = "https://prometheus-community.github.io/helm-charts"
   create_namespace = true
 
   values = [file("${path.module}/manifests/values.yml")]
 }
 
-resource "kubernetes_manifest" "grafana_ingress" {
+resource "kubernetes_manifest" "loki_ingress" {
   manifest = yamldecode(file("${path.module}/manifests/ingress.yml"))
 }
