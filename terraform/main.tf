@@ -28,6 +28,7 @@ module "traefik" {
   source = "./helm/traefik"
   project = var.project
   region  = var.region
+  load_balancer_ip = var.load_balancer_ip
 }
 
 module "argocd" {

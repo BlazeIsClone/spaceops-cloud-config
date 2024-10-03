@@ -1,8 +1,6 @@
 service:
   enabled: true
   type: LoadBalancer
-  spec:
-    loadBalancerIP: 34.82.231.50
 
 ingressRoute:
   dashboard:
