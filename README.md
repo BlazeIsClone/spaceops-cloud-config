@@ -29,6 +29,12 @@ terraform plan
 terraform apply
 ```
 
+Terraform destroy resources:
+
+```
+terraform destroy
+```
+
 ### Dashboards
 
 [Grafana](https://github.com/dotdc/grafana-dashboards-kubernetes)
