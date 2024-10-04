@@ -10,85 +10,29 @@
 
 ### Provision Cloud Infrastructure
 
-Terraform create resources:
-
-```
-terraform apply
-```
-
 First authenticate kubectl for cluster access:
 
 ```bash
 gcloud container clusters get-credentials gke-standard-regional-single-zone --region=us-west1
 ```
 
-Configure Traefik (update service load balancer IP address):
+Terraform set variables:
 
 ```bash
-helm upgrade --install --create-namespace --namespace=traefik \
-    --repo https://traefik.github.io/charts \
-    -f cluster-spaceops/core/traefik/values.yml traefik traefik
+touch terraform.tfvars
 ```
 
-Configure Argo CD:
+Terraform create resources:
 
-```bash
- helm upgrade --install --create-namespace --namespace=argocd \
-    --repo https://argoproj.github.io/argo-helm \
-    -f cluster-spaceops/core/argocd/values.yml argocd argo-cd
-
-kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
-
-kubectl -n argocd apply cluster-spaceops/argocd/ingress.yml
+```
+terraform plan
+terraform apply
 ```
 
-Grafana:
+### Dashboards
 
-```bash
-helm upgrade --install --create-namespace --namespace=monitoring \
-    --repo https://grafana.github.io/helm-charts \
-    -f cluster-spaceops/core/grafana/values.yml grafana grafana
+[Grafana](https://github.com/dotdc/grafana-dashboards-kubernetes)
 
-kubectl -n monitoring apply -f cluster-spaceops/core/grafana/ingress.yml
-```
+[Traefik](https://grafana.com/grafana/dashboards/17346-traefik-official-standalone-dashboard/)
 
-Prometheus:
-
-```bash
-helm upgrade --install --create-namespace --namespace=monitoring \
-    --repo https://prometheus-community.github.io/helm-charts \
-    -f cluster-spaceops/core/prometheus/values.yml prometheus prometheus
-
-kubectl -n monitoring apply -f cluster-spaceops/core/prometheus/ingress.yml
-```
-
-Blackbox Exporter:
-
-```bash
-helm upgrade --install --create-namespace --namespace=monitoring \
-    --repo https://prometheus-community.github.io/helm-charts \
-    -f cluster-spaceops/core/blackbox-exporter/values.yml blackbox-exporter prometheus-blackbox-exporter
-
-kubectl -n monitoring apply -f cluster-spaceops/core/blackbox-exporter/ingress.yml
-```
-
-Loki and Promtail:
-
-```bash
-helm upgrade --install --create-namespace --namespace=monitoring \
-    --repo https://grafana.github.io/helm-charts \
-    -f cluster-spaceops/core/loki/values.yml loki loki-stack
-
-helm upgrade --install loki --namespace=monitoring grafana/loki-stack \
-    --set loki.image.tag=2.9.3 -f cluster-spaceops/core/loki/values.yml
-
-kubectl -n monitoring apply -f cluster-spaceops/core/loki/ingress.yml
-```
-
-### Resources
-
-[Grafana Dashboards](https://github.com/dotdc/grafana-dashboards-kubernetes)
-
-[Traefik Dashboard](https://grafana.com/grafana/dashboards/17346-traefik-official-standalone-dashboard/)
-
-[ArgoCD Dashboard](https://grafana.com/grafana/dashboards/14584-argocd/)
+[ArgoCD](https://grafana.com/grafana/dashboards/14584-argocd/)
