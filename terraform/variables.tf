@@ -1,11 +1,31 @@
-variable "project" {}
+# Helm Provider
+variable "kube_config_path" {
+  type        = string
+  description = "Kube config path"
+  default     = "~/.kube/config"
+}
+
+# Google Provider
+variable "project" {
+  type        = string
+  description = "Project name"
+}
 
 variable "region" {
-  default = "us-west1"
+  type        = string
+  description = "GCP region"
 }
 
 variable "zone" {
-  default = "us-west1-c"
+  type        = string
+  description = "GCP Zone"
 }
 
+variable "gke_num_nodes" {
+  type        = number
+  description = "Number of nodes"
+}
+
+# Kubernetes
 variable "load_balancer_ip" {}
+

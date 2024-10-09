@@ -1,19 +1,17 @@
-provider "helm" {
-  kubernetes {
-    config_path = "~/.kube/config"
-  }
-}
-
 resource "helm_release" "prometheus" {
-  name       = "prometheus"
-  namespace  = "monitoring"
-  chart      = "prometheus"
-  repository = "https://prometheus-community.github.io/helm-charts"
+  name             = "prometheus"
+  namespace        = "monitoring"
+  chart            = "prometheus"
+  repository       = "https://prometheus-community.github.io/helm-charts"
   create_namespace = true
 
   values = [file("${path.module}/manifests/values.yml")]
 }
 
-resource "kubernetes_manifest" "prometheus_ingress" {
-  manifest = yamldecode(file("${path.module}/manifests/ingress.yml"))
+resource "kubectl_manifest" "prometheus_ingress" {
+  for_each          = toset(split("---", file("${abspath(path.module)}/manifests/ingress.yml")))
+  yaml_body         = each.value
+  server_side_apply = true
+
+  depends_on = [helm_release.prometheus]
 }

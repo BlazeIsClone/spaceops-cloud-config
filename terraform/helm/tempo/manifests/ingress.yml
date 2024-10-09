@@ -1,0 +1,26 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: tempo-ingress
+  namespace: monitoring
+spec:
+  entryPoints:
+    - web
+  routes:
+    - kind: Rule
+      match: Host(`tempo.blaze64.xyz`)
+      services:
+        - name: tempo
+          port: 3100
+      middlewares:
+        - name: tempo-server-auth
+
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: tempo-server-auth
+  namespace: monitoring
+spec:
+  basicAuth:
+    secret: tempo-server-auth-secret

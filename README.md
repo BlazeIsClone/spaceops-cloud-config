@@ -7,13 +7,14 @@
 - A Google Cloud Platform account. If you do not have a GCP account, create one now. This tutorial can be completed using only the services included in the GCP free tier.
 - The gcloud CLI installed locally.
 - Terraform 0.15.3+ installed locally.
+- Project on Google Cloud Console
 
 ### Provision Cloud Infrastructure
 
 First authenticate kubectl for cluster access:
 
 ```bash
-gcloud container clusters get-credentials gke-standard-regional-single-zone --region=us-west1
+gcloud container clusters get-credentials spaceops-gke-default --region=us-west1
 ```
 
 Terraform set variables:
