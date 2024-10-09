@@ -83,7 +83,7 @@ resource "google_container_node_pool" "primary_nodes" {
 }
 
 module "traefik" {
-  source           = "./helm/traefik"
+  source           = "./base/traefik"
   project          = var.project
   load_balancer_ip = google_compute_address.default.address
   depends_on = [
@@ -92,7 +92,7 @@ module "traefik" {
 }
 
 module "argocd" {
-  source  = "./helm/argocd"
+  source  = "./base/argocd"
   project = var.project
 
   depends_on = [
@@ -101,7 +101,7 @@ module "argocd" {
 }
 
 module "grafana" {
-  source  = "./helm/grafana"
+  source  = "./base/grafana"
   project = var.project
 
   depends_on = [
@@ -110,7 +110,7 @@ module "grafana" {
 }
 
 module "prometheus" {
-  source  = "./helm/prometheus"
+  source  = "./base/prometheus"
   project = var.project
 
   depends_on = [
@@ -119,7 +119,7 @@ module "prometheus" {
 }
 
 # module "tempo" {
-#   source  = "./helm/tempo"
+#   source  = "./base/tempo"
 #   project = var.project
 
 #   depends_on = [
