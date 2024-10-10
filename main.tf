@@ -83,17 +83,21 @@ resource "google_container_node_pool" "primary_nodes" {
 }
 
 module "traefik" {
-  source           = "./base/traefik"
-  project          = var.project
-  load_balancer_ip = google_compute_address.default.address
+  source             = "./base/traefik"
+  project            = var.project
+  load_balancer_ip   = google_compute_address.default.address
+  cloudflare_zone_id = var.cloudflare_zone_id
+  external_static_ip = google_compute_address.default.address
+
   depends_on = [
     google_container_node_pool.primary_nodes
   ]
 }
 
 module "argocd" {
-  source  = "./base/argocd"
-  project = var.project
+  source             = "./base/argocd"
+  cloudflare_zone_id = var.cloudflare_zone_id
+  external_static_ip = google_compute_address.default.address
 
   depends_on = [
     google_container_node_pool.primary_nodes
@@ -101,8 +105,9 @@ module "argocd" {
 }
 
 module "grafana" {
-  source  = "./base/grafana"
-  project = var.project
+  source             = "./base/grafana"
+  cloudflare_zone_id = var.cloudflare_zone_id
+  external_static_ip = google_compute_address.default.address
 
   depends_on = [
     google_container_node_pool.primary_nodes
@@ -110,8 +115,19 @@ module "grafana" {
 }
 
 module "prometheus" {
-  source  = "./base/prometheus"
-  project = var.project
+  source             = "./base/prometheus"
+  cloudflare_zone_id = var.cloudflare_zone_id
+  external_static_ip = google_compute_address.default.address
+
+  depends_on = [
+    google_container_node_pool.primary_nodes
+  ]
+}
+
+module "loki" {
+  source             = "./base/loki"
+  cloudflare_zone_id = var.cloudflare_zone_id
+  external_static_ip = google_compute_address.default.address
 
   depends_on = [
     google_container_node_pool.primary_nodes
@@ -120,7 +136,8 @@ module "prometheus" {
 
 # module "tempo" {
 #   source  = "./base/tempo"
-#   project = var.project
+#   cloudflare_zone_id = var.cloudflare_zone_id
+#   external_static_ip = google_compute_address.default.address
 
 #   depends_on = [
 #     google_container_node_pool.primary_nodes

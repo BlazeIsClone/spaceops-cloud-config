@@ -26,6 +26,19 @@ variable "gke_num_nodes" {
   description = "Number of nodes"
 }
 
-# Kubernetes
-variable "load_balancer_ip" {}
+# Grafana
+variable "grafana_url" {
+  description = "Grafana dashboard URL"
+}
 
+variable "grafana_api_token" {
+  description = "Grafana API Token"
+}
+
+variable "cloudflare_api_token" {
+  description = "Cloudflare API Token"
+}
+
+variable "cloudflare_zone_id" {
+  description = "Cloudflare Zone ID"
+}

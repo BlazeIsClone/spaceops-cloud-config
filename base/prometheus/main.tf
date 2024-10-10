@@ -15,3 +15,12 @@ resource "kubectl_manifest" "prometheus_ingress" {
 
   depends_on = [helm_release.prometheus]
 }
+
+resource "cloudflare_dns_record" "prometheus_dns" {
+  zone_id = var.cloudflare_zone_id
+  name    = "prometheus"
+  content = var.external_static_ip
+  type    = "A"
+  ttl     = 1
+  proxied = true
+}
