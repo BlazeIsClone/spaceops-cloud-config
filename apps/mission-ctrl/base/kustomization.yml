@@ -3,14 +3,3 @@ kind: Kustomization
 resources:
   - deployment.yml
   - service.yml
-  - ingress.yml
-
-configMapGenerator:
-  - name: mission-ctrl-config
-    literals:
-      - HOST_URL=
-      - MYSQL_HOST=
-      - MYSQL_PORT=
-      - MYSQL_USER=
-      - MYSQL_DATABASE=
-      - MYSQL_PASSWORD=
