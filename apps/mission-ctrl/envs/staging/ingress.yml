@@ -7,7 +7,7 @@ spec:
     - web
   routes:
     - kind: Rule
-      match: Host(`$(HOST_URL)`)
+      match: Host(`mission-ctrl-staging.blaze64.xyz`)
       services:
         - name: mission-ctrl-service
           port: 80
