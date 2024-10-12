@@ -1,0 +1,17 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: mission-ctrl-staging
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: staging
+    server: https://kubernetes.default.svc
+  source:
+    path: apps/staging/mission-ctrl
+    repoURL: https://github.com/BlazeIsClone/spaceops-cloud-config.git
+    targetRevision: HEAD
+  sources: []
+  project: default
