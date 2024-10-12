@@ -48,6 +48,12 @@ resource "google_container_cluster" "primary" {
   # Nerf initial spec
   node_config {
     disk_size_gb = "20"
+
+    kubelet_config {
+      cpu_cfs_quota      = "false"
+      pod_pids_limit     = 0
+      cpu_manager_policy = ""
+    }
   }
 }
 
@@ -74,12 +80,59 @@ resource "google_container_node_pool" "primary_nodes" {
     disk_type    = "pd-standard"
     machine_type = "n1-standard-1"
     tags         = ["gke-node", "${var.project}-gke-${terraform.workspace}"]
+
+    kubelet_config {
+      cpu_cfs_quota      = "false"
+      pod_pids_limit     = 0
+      cpu_manager_policy = ""
+    }
+
     metadata = {
       disable-legacy-endpoints = "true"
     }
   }
 
   depends_on = [google_container_cluster.primary]
+}
+
+module "prometheus" {
+  source             = "./base/prometheus"
+  cloudflare_zone_id = var.cloudflare_zone_id
+  external_static_ip = google_compute_address.default.address
+
+  depends_on = [
+    google_container_node_pool.primary_nodes
+  ]
+}
+
+module "loki" {
+  source             = "./base/loki"
+  cloudflare_zone_id = var.cloudflare_zone_id
+  external_static_ip = google_compute_address.default.address
+
+  depends_on = [
+    google_container_node_pool.primary_nodes
+  ]
+}
+
+module "tempo" {
+  source             = "./base/tempo"
+  cloudflare_zone_id = var.cloudflare_zone_id
+  external_static_ip = google_compute_address.default.address
+
+  depends_on = [
+    google_container_node_pool.primary_nodes
+  ]
+}
+
+module "grafana" {
+  source             = "./base/grafana"
+  cloudflare_zone_id = var.cloudflare_zone_id
+  external_static_ip = google_compute_address.default.address
+
+  depends_on = [
+    google_container_node_pool.primary_nodes
+  ]
 }
 
 module "traefik" {
@@ -103,43 +156,3 @@ module "argocd" {
     google_container_node_pool.primary_nodes
   ]
 }
-
-module "grafana" {
-  source             = "./base/grafana"
-  cloudflare_zone_id = var.cloudflare_zone_id
-  external_static_ip = google_compute_address.default.address
-
-  depends_on = [
-    google_container_node_pool.primary_nodes
-  ]
-}
-
-module "prometheus" {
-  source             = "./base/prometheus"
-  cloudflare_zone_id = var.cloudflare_zone_id
-  external_static_ip = google_compute_address.default.address
-
-  depends_on = [
-    google_container_node_pool.primary_nodes
-  ]
-}
-
-module "loki" {
-  source             = "./base/loki"
-  cloudflare_zone_id = var.cloudflare_zone_id
-  external_static_ip = google_compute_address.default.address
-
-  depends_on = [
-    google_container_node_pool.primary_nodes
-  ]
-}
-
-# module "tempo" {
-#   source  = "./base/tempo"
-#   cloudflare_zone_id = var.cloudflare_zone_id
-#   external_static_ip = google_compute_address.default.address
-
-#   depends_on = [
-#     google_container_node_pool.primary_nodes
-#   ]
-# }

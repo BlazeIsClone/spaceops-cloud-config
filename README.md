@@ -35,11 +35,3 @@ Terraform destroy resources:
 ```
 terraform destroy
 ```
-
-### Dashboards
-
-[Grafana](https://github.com/dotdc/grafana-dashboards-kubernetes)
-
-[Traefik](https://grafana.com/grafana/dashboards/17346-traefik-official-standalone-dashboard/)
-
-[ArgoCD](https://grafana.com/grafana/dashboards/14584-argocd/)

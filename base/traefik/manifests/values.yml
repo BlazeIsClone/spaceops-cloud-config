@@ -27,3 +27,12 @@ extraObjects:
     spec:
       basicAuth:
         secret: traefik-dashboard-auth-secret
+
+tracing:
+  addInternals: true
+  otlp:
+    enabled: true
+    http:
+      enabled: true
+      endpoint: "http://prometheus-server.monitoring.svc.cluster.local/api/v1/otlp/v1/metrics"
+      headers: {}

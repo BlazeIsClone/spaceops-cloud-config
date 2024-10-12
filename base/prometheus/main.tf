@@ -24,3 +24,22 @@ resource "cloudflare_dns_record" "prometheus_dns" {
   ttl     = 1
   proxied = true
 }
+
+resource "cloudflare_dns_record" "alertmanager_dns" {
+  zone_id = var.cloudflare_zone_id
+  name    = "alertmanager"
+  content = var.external_static_ip
+  type    = "A"
+  ttl     = 1
+  proxied = true
+}
+
+
+resource "cloudflare_dns_record" "pushgateway_dns" {
+  zone_id = var.cloudflare_zone_id
+  name    = "pushgateway"
+  content = var.external_static_ip
+  type    = "A"
+  ttl     = 1
+  proxied = true
+}

@@ -33,8 +33,7 @@ provider "kubectl" {
 }
 
 provider "grafana" {
-  url  = var.grafana_url
-  auth = var.grafana_api_token
+  url = var.grafana_url
 }
 
 provider "cloudflare" {

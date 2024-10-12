@@ -25,12 +25,3 @@ resource "cloudflare_dns_record" "grafana_dns" {
   ttl     = 1
   proxied = true
 }
-
-# resource "grafana_dashboard" "traefik_dashboard" {
-#   for_each    = fileset("${var.dashboard_file_path}", "**")
-#   config_json = file("${var.dashboard_file_path}/${each.key}")
-
-#   depends_on = [kubectl_manifest.grafana_ingress]
-# }
-
-

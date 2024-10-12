@@ -6,6 +6,11 @@ resource "helm_release" "loki" {
   create_namespace = true
 
   values = [file("${path.module}/manifests/values.yml")]
+
+  set {
+    name  = "loki.image.tag"
+    value = "2.9.3"
+  }
 }
 
 resource "kubectl_manifest" "loki_ingress" {
