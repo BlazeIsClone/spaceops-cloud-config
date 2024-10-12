@@ -156,3 +156,37 @@ module "argocd" {
     google_container_node_pool.primary_nodes
   ]
 }
+
+resource "kubectl_manifest" "staging_apps" {
+  provider  = kubectl
+  for_each  = fileset(path.module, "apps/*/envs/staging/application.yml")
+  yaml_body = file(each.value)
+
+  server_side_apply = true
+}
+
+resource "kubectl_manifest" "prod_apps" {
+  provider  = kubectl
+  for_each  = fileset(path.module, "apps/*/envs/prod/application.yml")
+  yaml_body = file(each.value)
+
+  server_side_apply = true
+}
+
+resource "cloudflare_dns_record" "mission_ctrl_dns" {
+  zone_id = var.cloudflare_zone_id
+  name    = "mission-ctrl"
+  content = google_compute_address.default.address
+  type    = "A"
+  ttl     = 1
+  proxied = true
+}
+
+resource "cloudflare_dns_record" "mission-ctrl_dns_staging" {
+  zone_id = var.cloudflare_zone_id
+  name    = "mission-ctrl-staging"
+  content = google_compute_address.default.address
+  type    = "A"
+  ttl     = 1
+  proxied = true
+}

@@ -9,6 +9,3 @@ spec:
   routes:
     - kind: Rule
       match: Host(`mission-ctrl-staging.blaze64.xyz`)
-      services:
-        - name: mission-ctrl-service
-          port: 80
