@@ -2,13 +2,12 @@ apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
   name: mission-ctrl-ingress-route
-  namespace: prod
 spec:
   entryPoints:
     - web
   routes:
     - kind: Rule
-      match: Host(`mission-ctrl.blaze64.xyz`)
+      match: Host(`$(HOST_URL)`)
       services:
         - name: mission-ctrl-service
           port: 80

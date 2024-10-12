@@ -1,5 +1,18 @@
-bases:
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
   - ../../base
-patches:
-  - replica_count.yml
-  - ingress_route.yml
+
+namespace: staging
+
+replicas:
+  - name: mission-ctrl-deployment
+    count: 2
+
+configMapGenerator:
+  - name: mission-ctrl-config
+    behavior: replace
+    literals:
+      - HOST_URL=mission-ctrl-staging.blaze64.xyz
+      - MYSQL_HOST=staging-db-host
+      - MYSQL_PASSWORD=staging-db-password
