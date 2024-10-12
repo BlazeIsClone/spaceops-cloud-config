@@ -1,0 +1,38 @@
+service:
+  enabled: true
+  type: LoadBalancer
+
+ingressRoute:
+  dashboard:
+    enabled: true
+    matchRule: Host(`traefik.blaze64.xyz`)
+    entryPoints: ["web"]
+    middlewares:
+      - name: traefik-dashboard-auth
+
+extraObjects:
+  - apiVersion: v1
+    kind: Secret
+    metadata:
+      name: traefik-dashboard-auth-secret
+    type: kubernetes.io/basic-auth
+    stringData:
+      username: admin
+      password: traefik
+
+  - apiVersion: traefik.io/v1alpha1
+    kind: Middleware
+    metadata:
+      name: traefik-dashboard-auth
+    spec:
+      basicAuth:
+        secret: traefik-dashboard-auth-secret
+
+tracing:
+  addInternals: true
+  otlp:
+    enabled: true
+    http:
+      enabled: true
+      endpoint: "http://prometheus-server.monitoring.svc.cluster.local/api/v1/otlp/v1/metrics"
+      headers: {}

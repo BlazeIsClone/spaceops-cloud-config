@@ -1,0 +1,95 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: prometheus-ingress
+  namespace: monitoring
+spec:
+  entryPoints:
+    - web
+  routes:
+    - kind: Rule
+      match: Host(`prometheus.blaze64.xyz`)
+      services:
+        - name: prometheus-server
+          port: 80
+      middlewares:
+        - name: prometheus-server-auth
+
+    - kind: Rule
+      match: Host(`alertmanager.blaze64.xyz`)
+      services:
+        - name: prometheus-alertmanager
+          port: 9093
+      middlewares:
+        - name: prometheus-alertmanager-auth
+
+    - kind: Rule
+      match: Host(`pushgateway.blaze64.xyz`)
+      services:
+        - name: prometheus-prometheus-pushgateway
+          port: 9091
+      middlewares:
+        - name: prometheus-pushgateway-auth
+
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: prometheus-server-auth
+  namespace: monitoring
+spec:
+  basicAuth:
+    secret: prometheus-server-auth-secret
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: prometheus-server-auth-secret
+  namespace: monitoring
+type: kubernetes.io/basic-auth
+stringData:
+  username: admin
+  password: prometheus
+
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: prometheus-alertmanager-auth
+  namespace: monitoring
+spec:
+  basicAuth:
+    secret: prometheus-alertmanager-auth-secret
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: prometheus-alertmanager-auth-secret
+  namespace: monitoring
+type: kubernetes.io/basic-auth
+stringData:
+  username: admin
+  password: alertmanager
+
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: prometheus-pushgateway-auth
+  namespace: monitoring
+spec:
+  basicAuth:
+    secret: prometheus-pushgateway-auth-secret
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: prometheus-pushgateway-auth-secret
+  namespace: monitoring
+type: kubernetes.io/basic-auth
+stringData:
+  username: admin
+  password: pushgateway
