@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mission-ctrl-deployment
-  namespace: prod
   labels:
     app: mission-ctrl
 spec:
@@ -27,7 +26,7 @@ spec:
             - name: BASE_PATH
               value: /api/v1
             - name: MYSQL_HOST
-              value: 34.133.141.183
+              value: $(MYSQL_HOST)
             - name: MYSQL_PORT
               value: "3306"
             - name: MYSQL_USER
@@ -35,7 +34,7 @@ spec:
             - name: MYSQL_DATABASE
               value: spaceops_mission_ctrl
             - name: MYSQL_PASSWORD
-              value: password
+              value: $(MYSQL_PASSWORD)
 
       containers:
         - name: mission-ctrl-app
@@ -54,7 +53,7 @@ spec:
             - name: BASE_PATH
               value: /api/v1
             - name: MYSQL_HOST
-              value: 34.133.141.183
+              value: $(MYSQL_HOST)
             - name: MYSQL_PORT
               value: "3306"
             - name: MYSQL_USER
@@ -62,7 +61,8 @@ spec:
             - name: MYSQL_DATABASE
               value: spaceops_mission_ctrl
             - name: MYSQL_PASSWORD
-              value: password
+              value: $(MYSQL_PASSWORD)
+
           ports:
             - containerPort: 3000
           resources:

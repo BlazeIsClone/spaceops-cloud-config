@@ -1,5 +1,18 @@
-bases:
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
   - ../../base
-patches:
-  - replica_count.yml
-  - ingress_route.yml
+
+namespace: prod
+
+replicas:
+  - name: mission-ctrl-deployment
+    count: 4
+
+configMapGenerator:
+  - name: mission-ctrl-config
+    behavior: replace
+    literals:
+      - HOST_URL=mission-ctrl.blaze64.xyz
+      - MYSQL_HOST=prod-db-host
+      - MYSQL_PASSWORD=prod-db-password
