@@ -28,11 +28,11 @@ spec:
             - name: MYSQL_HOST
               value: $(MYSQL_HOST)
             - name: MYSQL_PORT
-              value: "3306"
+              value: $(MYSQL_PORT)
             - name: MYSQL_USER
-              value: spaceops
+              value: $(MYSQL_USER)
             - name: MYSQL_DATABASE
-              value: spaceops_mission_ctrl
+              value: $(MYSQL_DATABASE)
             - name: MYSQL_PASSWORD
               value: $(MYSQL_PASSWORD)
 
@@ -55,14 +55,13 @@ spec:
             - name: MYSQL_HOST
               value: $(MYSQL_HOST)
             - name: MYSQL_PORT
-              value: "3306"
+              value: $(MYSQL_PORT)
             - name: MYSQL_USER
-              value: spaceops
+              value: $(MYSQL_USER)
             - name: MYSQL_DATABASE
-              value: spaceops_mission_ctrl
+              value: $(MYSQL_DATABASE)
             - name: MYSQL_PASSWORD
               value: $(MYSQL_PASSWORD)
-
           ports:
             - containerPort: 3000
           resources:
