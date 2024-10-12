@@ -9,14 +9,3 @@ namespace: staging
 replicas:
   - name: mission-ctrl-deployment
     count: 2
-
-configMapGenerator:
-  - name: mission-ctrl-config
-    behavior: replace
-    literals:
-      - HOST_URL=mission-ctrl-staging.blaze64.xyz
-      - MYSQL_HOST=34.133.141.183
-      - MYSQL_PORT=3306
-      - MYSQL_USER=spaceops
-      - MYSQL_DATABASE=spaceops_mission_ctrl
-      - MYSQL_PASSWORD=password
