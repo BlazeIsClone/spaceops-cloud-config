@@ -95,6 +95,41 @@ resource "google_container_node_pool" "primary_nodes" {
   depends_on = [google_container_cluster.primary]
 }
 
+resource "google_sql_database_instance" "mysql_primary" {
+  name             = "spaceops-north"
+  database_version = "MYSQL_8_0"
+  region           = var.region
+
+  settings {
+    tier      = "db-f1-micro"
+    disk_size = "10"
+
+    backup_configuration {
+      enabled = true
+    }
+
+    ip_configuration {
+      ipv4_enabled = true
+
+      authorized_networks {
+        name  = "public-network"
+        value = "0.0.0.0/0"
+      }
+    }
+  }
+}
+
+resource "google_sql_database" "spaceops_mission_ctrl_database" {
+  name     = "spaceops_mission_ctrl"
+  instance = google_sql_database_instance.mysql_primary.name
+}
+
+resource "google_sql_user" "spaceops_user" {
+  name     = "spaceops"
+  password = "password"
+  instance = google_sql_database_instance.mysql_primary.name
+}
+
 module "prometheus" {
   source             = "./base/prometheus"
   cloudflare_zone_id = var.cloudflare_zone_id
