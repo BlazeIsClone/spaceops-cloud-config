@@ -1,5 +1,3 @@
-data "google_client_config" "default" {}
-
 data "google_container_engine_versions" "gke_version" {
   location       = var.region
   version_prefix = "1.27."
@@ -16,13 +14,8 @@ resource "google_container_cluster" "primary" {
   remove_default_node_pool = true
   initial_node_count       = 1
 
-  network    = google_compute_network.vpc.name
-  subnetwork = google_compute_subnetwork.subnet.name
-
-  depends_on = [
-    google_compute_network.vpc,
-    google_compute_subnetwork.subnet
-  ]
+  network    = var.network_vpc_name
+  subnetwork = var.network_subnet_name
 
   # Nerf initial spec
   node_config {

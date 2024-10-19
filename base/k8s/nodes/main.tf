@@ -1,9 +1,7 @@
-data "google_client_config" "default" {}
-
 resource "google_container_node_pool" "primary_nodes" {
-  name     = google_container_cluster.primary.name
+  name     = var.control_plane_cluster
+  cluster  = var.control_plane_cluster
   location = var.region
-  cluster  = google_container_cluster.primary.name
 
   node_locations = [var.zone]
   node_count     = var.gke_num_nodes
@@ -33,6 +31,4 @@ resource "google_container_node_pool" "primary_nodes" {
       disable-legacy-endpoints = "true"
     }
   }
-
-  depends_on = [google_container_cluster.primary]
 }

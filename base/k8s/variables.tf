@@ -18,3 +18,13 @@ variable "gke_num_nodes" {
   description = "Number of nodes"
 }
 
+variable "network_vpc_name" {
+  type        = string
+  description = "Virtual Private Cloud Name"
+}
+
+variable "network_subnet_name" {
+  type        = string
+  description = "Virtual Private Cloud Subnet"
+}
+
