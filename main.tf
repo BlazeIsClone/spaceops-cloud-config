@@ -4,8 +4,8 @@ module "network" {
   region  = var.region
 }
 
-module "cluster" {
-  source        = "./base/cluster"
+module "k8s" {
+  source        = "./base/k8s"
   project       = var.project
   region        = var.region
   zone          = var.zone
