@@ -1,6 +1,6 @@
 resource "google_container_node_pool" "primary_nodes" {
-  name     = var.control_plane_cluster
-  cluster  = var.control_plane_cluster
+  name     = var.control_plane_cluster.name
+  cluster  = var.control_plane_cluster.name
   location = var.region
 
   node_locations = [var.zone]

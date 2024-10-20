@@ -14,7 +14,6 @@ variable "zone" {
 }
 
 variable "control_plane_cluster" {
-  type        = string
   description = "Kubernetes Control Plane Cluster"
 }
 

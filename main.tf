@@ -29,3 +29,13 @@ module "services" {
   kube_config_path     = var.kube_config_path
   external_static_ip   = module.network.network_ip_address
 }
+
+module "apps" {
+  source = "./base/apps"
+}
+
+module "dns" {
+  source             = "./base/dns"
+  cloudflare_zone_id = var.cloudflare_zone_id
+  external_static_ip = module.network.network_ip_address
+}
