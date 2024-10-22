@@ -19,7 +19,7 @@ secretGenerator:
     literals:
       - MYSQL_USER=spaceops
       - MYSQL_PASSWORD=password
-      - MYSQL_DATABASE=spaceops_mission_ctrl
+      - MYSQL_DATABASE=spaceops_mission_ctrl_staging
 
 replicas:
   - name: mission-ctrl-deployment
