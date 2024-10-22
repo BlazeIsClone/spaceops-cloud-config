@@ -20,21 +20,11 @@ spec:
           command:
             - make
             - migrate
-          env:
-            - name: PORT
-              value: "3000"
-            - name: BASE_PATH
-              value: /api/v1
-            - name: MYSQL_HOST
-              value: 34.133.141.183
-            - name: MYSQL_PORT
-              value: "3306"
-            - name: MYSQL_USER
-              value: spaceops
-            - name: MYSQL_DATABASE
-              value: spaceops_mission_ctrl
-            - name: MYSQL_PASSWORD
-              value: password
+          envFrom:
+            - configMapRef:
+              name: mission-ctrl-configmap
+            - secretRef:
+              name: mission-ctrl-secret
 
       containers:
         - name: mission-ctrl-app
@@ -47,21 +37,6 @@ spec:
             periodSeconds: 10
             timeoutSeconds: 1
             failureThreshold: 3
-          env:
-            - name: PORT
-              value: "3000"
-            - name: BASE_PATH
-              value: /api/v1
-            - name: MYSQL_HOST
-              value: 34.133.141.183
-            - name: MYSQL_PORT
-              value: "3306"
-            - name: MYSQL_USER
-              value: spaceops
-            - name: MYSQL_DATABASE
-              value: spaceops_mission_ctrl
-            - name: MYSQL_PASSWORD
-              value: password
           ports:
             - containerPort: 3000
           resources:
@@ -71,3 +46,8 @@ spec:
             limits:
               memory: "64Mi"
               cpu: "150m"
+          envFrom:
+            - configMapRef:
+              name: mission-ctrl-configmap
+            - secretRef:
+              name: mission-ctrl-secret
