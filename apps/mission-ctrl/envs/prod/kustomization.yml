@@ -11,7 +11,7 @@ configMapGenerator:
     literals:
       - PORT="3000"
       - BASE_PATH=/api/v1
-      - MYSQL_HOST=34.133.141.183
+      - MYSQL_HOST=35.203.176.250
       - MYSQL_PORT="3306"
 
 secretGenerator:
