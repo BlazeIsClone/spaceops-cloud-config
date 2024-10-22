@@ -22,9 +22,9 @@ spec:
             - migrate
           envFrom:
             - configMapRef:
-              name: mission-ctrl-configmap
+                name: mission-ctrl-configmap
             - secretRef:
-              name: mission-ctrl-secret
+                name: mission-ctrl-secret
 
       containers:
         - name: mission-ctrl-app
@@ -48,6 +48,6 @@ spec:
               cpu: "150m"
           envFrom:
             - configMapRef:
-              name: mission-ctrl-configmap
+                name: mission-ctrl-configmap
             - secretRef:
-              name: mission-ctrl-secret
+                name: mission-ctrl-secret
