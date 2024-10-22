@@ -9,7 +9,7 @@ resource "helm_release" "traefik" {
 
   set {
     name  = "service.spec.loadBalancerIP"
-    value = var.load_balancer_ip
+    value = var.external_static_ip
   }
 }
 

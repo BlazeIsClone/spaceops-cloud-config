@@ -1,11 +1,3 @@
-# Helm Provider
-variable "kube_config_path" {
-  type        = string
-  description = "Kube config path"
-  default     = "~/.kube/config"
-}
-
-# Google Provider
 variable "project" {
   type        = string
   description = "Project name"
@@ -26,10 +18,13 @@ variable "gke_num_nodes" {
   description = "Number of nodes"
 }
 
-variable "cloudflare_api_token" {
-  description = "Cloudflare API Token"
+variable "network_vpc_name" {
+  type        = string
+  description = "Virtual Private Cloud Name"
 }
 
-variable "cloudflare_zone_id" {
-  description = "Cloudflare Zone ID"
+variable "network_subnet_name" {
+  type        = string
+  description = "Virtual Private Cloud Subnet"
 }
+
