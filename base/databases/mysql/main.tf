@@ -35,5 +35,6 @@ resource "google_sql_database" "spaceops_mission_ctrl_staging_database" {
 resource "google_sql_user" "spaceops_user" {
   name     = "spaceops"
   password = "password"
+  host     = "%"
   instance = google_sql_database_instance.mysql_primary.name
 }
