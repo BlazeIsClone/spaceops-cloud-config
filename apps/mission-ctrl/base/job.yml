@@ -1,0 +1,24 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: mission-ctrl-job
+  labels:
+    app: mission-ctrl
+spec:
+  template:
+    metadata:
+      labels:
+        app: mission-ctrl-migrate
+    spec:
+      containers:
+        - name: mission-ctrl-migrate
+          image: ghcr.io/blazeisclone/spaceops-mission-ctrl:v0.0.1
+          command:
+            - make
+            - migrate
+          envFrom:
+            - configMapRef:
+                name: mission-ctrl-configmap
+            - secretRef:
+                name: mission-ctrl-secret
+      restartPolicy: OnFailure
