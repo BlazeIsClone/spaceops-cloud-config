@@ -7,9 +7,7 @@ resources:
 namespace: staging
 
 images:
-  - name: mission-ctrl-app
-    newTag: v0.0.8
-  - name: mission-ctrl-migrate
+  - name: ghcr.io/blazeisclone/spaceops-mission-ctrl
     newTag: v0.0.8
 
 configMapGenerator:
