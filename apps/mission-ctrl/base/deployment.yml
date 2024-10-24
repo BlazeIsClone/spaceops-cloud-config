@@ -14,21 +14,9 @@ spec:
       labels:
         app: mission-ctrl
     spec:
-      initContainers:
-        - name: mission-ctrl-migrate
-          image: ghcr.io/blazeisclone/spaceops-mission-ctrl:v0.0.7
-          command:
-            - make
-            - migrate
-          envFrom:
-            - configMapRef:
-                name: mission-ctrl-configmap
-            - secretRef:
-                name: mission-ctrl-secret
-
       containers:
         - name: mission-ctrl-app
-          image: ghcr.io/blazeisclone/spaceops-mission-ctrl:v0.0.7
+          image: ghcr.io/blazeisclone/spaceops-mission-ctrl:v0.0.1
           readinessProbe:
             httpGet:
               path: /health

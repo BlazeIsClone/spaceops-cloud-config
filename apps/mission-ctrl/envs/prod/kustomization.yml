@@ -6,6 +6,12 @@ resources:
 
 namespace: prod
 
+images:
+  - name: mission-ctrl-app
+    newTag: v0.0.8
+  - name: mission-ctrl-migrate
+    newTag: v0.0.8
+
 configMapGenerator:
   - name: mission-ctrl-configmap
     literals:
