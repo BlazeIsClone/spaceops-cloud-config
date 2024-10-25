@@ -6,6 +6,7 @@ metadata:
     app: mission-ctrl
 spec:
   replicas: 4
+  revisionHistoryLimit: 5
   selector:
     matchLabels:
       app: mission-ctrl
