@@ -13,5 +13,9 @@ spec:
     path: apps/mission-ctrl/envs/staging
     repoURL: https://github.com/BlazeIsClone/spaceops-cloud-config.git
     targetRevision: HEAD
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+      - PruneLast=true
   sources: []
   project: default
