@@ -4,6 +4,8 @@ metadata:
   name: mission-ctrl-job
   labels:
     app: mission-ctrl
+  annotations:
+    argocd.argoproj.io/sync-wave: "-10"
 spec:
   template:
     metadata:
